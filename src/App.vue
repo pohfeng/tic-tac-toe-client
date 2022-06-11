@@ -1,9 +1,12 @@
-<script setup>
-import MainPage from './views/MainPage.vue';
-</script>
+<script setup></script>
 
 <template>
-  <MainPage />
+  <header>
+    <h1>Tic-Tac-Toe</h1>
+  </header>
+  <main>
+    <router-view></router-view>
+  </main>
 </template>
 
 <style>

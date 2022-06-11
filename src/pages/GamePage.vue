@@ -3,12 +3,12 @@
 </template>
 
 <script>
-import Board from '../components/Board/Board.vue';
+import Board from '../components/Board/Board.vue'
 export default {
   components: {
-    Board,
-  },
-};
+    Board
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>

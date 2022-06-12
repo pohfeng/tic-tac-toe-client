@@ -1,21 +1,37 @@
 <template>
-  <main>
-    <div class="board" id="board">
-      <div class="cell x" data-cell></div>
-      <div class="cell circle" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-    </div>
-  </main>
+  <div class="board" id="board">
+    <button
+      v-for="index in 9"
+      :key="index"
+      class="cell"
+      :class="classGenerator(index)"
+      :disabled="gameData[index] || turn !== mark"
+      @click="markColumn(index)"
+    ></button>
+  </div>
 </template>
 
 <script>
-export default {};
+import { mapActions, mapState } from 'vuex'
+
+export default {
+  computed: {
+    ...mapState('room', ['gameData', 'mark', 'turn'])
+  },
+  methods: {
+    ...mapActions('room', ['updateGameData']),
+    classGenerator(key) {
+      return {
+        x: this.gameData[key] === 'x',
+        circle: this.gameData[key] === 'o'
+      }
+    },
+    markColumn(key) {
+      const latestData = { ...this.gameData, [key]: this.mark }
+      this.updateGameData({ latestData })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -107,5 +123,8 @@ main {
   width: calc($mark-size * 0.7);
   height: calc($mark-size * 0.7);
   background-color: white;
+}
+button:disabled.cell.circle::after {
+  background-color: #5ccbf2;
 }
 </style>

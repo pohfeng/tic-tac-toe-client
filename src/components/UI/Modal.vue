@@ -1,13 +1,20 @@
 <template>
-  <Teleport to="modal">
-    <div class="overlay">
+  <Teleport to="body">
+    <div v-if="open" class="overlay">
       <slot></slot>
     </div>
   </Teleport>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    open: {
+      type: Boolean,
+      default: false
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

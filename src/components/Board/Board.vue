@@ -1,25 +1,51 @@
 <template>
-  <main>
-    <div class="board" id="board">
-      <div class="cell x" data-cell></div>
-      <div class="cell circle" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-      <div class="cell" data-cell></div>
-    </div>
-  </main>
+  <div v-show="turn !== mark" class="opponent">
+    <span>Opponent's turn</span>
+    <span class="spinner"></span>
+  </div>
+  <div v-show="turn === mark" class="player">
+    <span>Your turn</span>
+    <span class="spinner"></span>
+  </div>
+  <div class="board" id="board">
+    <button
+      v-for="index in 9"
+      :key="index"
+      class="cell"
+      :class="classGenerator(index)"
+      :disabled="gameData[index] || turn !== mark"
+      @click="markColumn(index)"
+    ></button>
+  </div>
 </template>
 
 <script>
-export default {};
+import { mapActions, mapState } from 'vuex'
+
+export default {
+  computed: {
+    ...mapState('room', ['gameData', 'mark', 'turn'])
+  },
+  methods: {
+    ...mapActions('room', ['updateGameData']),
+    classGenerator(key) {
+      return {
+        x: this.gameData[key] === 'x',
+        circle: this.gameData[key] === 'o'
+      }
+    },
+    markColumn(key) {
+      const latestData = { ...this.gameData, [key]: this.mark }
+      this.updateGameData({ latestData })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/variables.scss';
+@import '../../styles/variables';
+@import '../../styles/spinner';
+@include spinner-mixin;
 
 main {
   width: 100vw;
@@ -28,6 +54,16 @@ main {
   justify-content: center;
   align-items: center;
 }
+
+.opponent,
+.player {
+  span {
+    margin-left: 1rem;
+  }
+  font-size: xx-large;
+  margin-bottom: 2rem;
+}
+
 .board {
   display: grid;
   justify-content: center;
@@ -107,5 +143,8 @@ main {
   width: calc($mark-size * 0.7);
   height: calc($mark-size * 0.7);
   background-color: white;
+}
+button:disabled.cell.circle::after {
+  background-color: #5ccbf2;
 }
 </style>

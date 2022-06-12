@@ -1,13 +1,20 @@
 <template>
-  <Teleport to="modal">
-    <div class="overlay">
+  <Teleport to="body">
+    <div v-if="open" class="overlay">
       <slot></slot>
     </div>
   </Teleport>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    open: {
+      type: Boolean,
+      default: false
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -22,6 +29,6 @@ export default {};
   width: 100%;
   height: 100vh;
   z-index: 20;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 </style>

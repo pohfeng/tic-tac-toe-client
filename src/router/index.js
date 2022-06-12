@@ -3,6 +3,7 @@ import HomePage from '../pages/HomePage.vue'
 import CreateRoomPage from '../pages/CreateRoomPage.vue'
 import JoinRoomPage from '../pages/JoinRoomPage.vue'
 import GamePage from '../pages/GamePage.vue'
+import store from '../store'
 
 const routes = [
   {
@@ -13,7 +14,12 @@ const routes = [
   {
     path: '/create-room',
     name: 'create-room-page',
-    component: CreateRoomPage
+    component: CreateRoomPage,
+    beforeEnter: () => {
+      if (!store.state.room.roomId) {
+        return { name: 'home' }
+      }
+    }
   },
   {
     path: '/join-room',
@@ -23,7 +29,20 @@ const routes = [
   {
     path: '/game/:id',
     name: 'game-page',
-    component: GamePage
+    component: GamePage,
+    beforeEnter: async () => {
+      // handle user refresh
+      if (!store.state.room.roomId) {
+        window.alert(
+          'This Room is closed! Please create a new room or join an existing room to play.'
+        )
+        return { name: 'home' }
+      }
+
+      // reset game data
+      await store.dispatch('room/restartGame')
+      return true
+    }
   }
 ]
 

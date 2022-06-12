@@ -1,16 +1,14 @@
 <template>
-  <main>
-    <div class="board" id="board">
-      <button
-        v-for="index in 9"
-        :key="index"
-        class="cell"
-        :class="classGenerator(index)"
-        :disabled="gameData[index] || turn !== mark"
-        @click="markColumn(index)"
-      ></button>
-    </div>
-  </main>
+  <div class="board" id="board">
+    <button
+      v-for="index in 9"
+      :key="index"
+      class="cell"
+      :class="classGenerator(index)"
+      :disabled="gameData[index] || turn !== mark"
+      @click="markColumn(index)"
+    ></button>
+  </div>
 </template>
 
 <script>
@@ -23,14 +21,13 @@ export default {
   methods: {
     ...mapActions('room', ['updateGameData']),
     classGenerator(key) {
-      console.log('this.gameData: ', this.gameData)
       return {
         x: this.gameData[key] === 'x',
         circle: this.gameData[key] === 'o'
       }
     },
     markColumn(key) {
-      const latestData = { ...this.gameData, [key]: mark }
+      const latestData = { ...this.gameData, [key]: this.mark }
       this.updateGameData({ latestData })
     }
   }
@@ -126,5 +123,8 @@ main {
   width: calc($mark-size * 0.7);
   height: calc($mark-size * 0.7);
   background-color: white;
+}
+button:disabled.cell.circle::after {
+  background-color: #5ccbf2;
 }
 </style>

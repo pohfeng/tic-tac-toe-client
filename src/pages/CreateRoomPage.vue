@@ -44,6 +44,8 @@ export default {
   text-align: left;
   background-color: rgba(#ddd, 0.5);
   border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  margin: 1rem 0;
 }
 .copy-icon {
   width: 1.5rem;

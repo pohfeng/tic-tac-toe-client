@@ -37,10 +37,7 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/spinner';
 @include spinner-mixin;
-
 .room-id {
-  padding: 0.5rem 2rem;
-  margin: 1rem 0;
   display: flex;
   justify-content: space-between;
   font-size: 1.5rem;

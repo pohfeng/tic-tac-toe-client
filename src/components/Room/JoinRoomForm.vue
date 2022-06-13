@@ -32,6 +32,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../styles/button';
+@include button-mixin;
 
 section,
 form {
@@ -45,6 +46,4 @@ input {
   outline: none;
   font-size: xx-large;
 }
-
-@include button-mixin;
 </style>

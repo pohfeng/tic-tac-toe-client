@@ -29,10 +29,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/button';
+@include button-mixin;
 .buttons-container {
   display: flex;
   flex-direction: column;
-
-  @include button-mixin;
 }
 </style>

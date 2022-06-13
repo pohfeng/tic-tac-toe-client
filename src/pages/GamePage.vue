@@ -55,6 +55,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/button';
+@include button-mixin;
 .result-container {
   display: flex;
   flex-direction: column;
@@ -69,7 +70,5 @@ export default {
   .restart-ready {
     font-size: xx-large;
   }
-
-  @include button-mixin;
 }
 </style>

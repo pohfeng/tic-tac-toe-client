@@ -1,10 +1,12 @@
 <template>
   <section>
-    <h2>Please enter a room id to start the game!</h2>
-    <form @submit.prevent="onSubmit">
-      <input type="text" v-model="roomId" />
-      <button type="submit">Start!</button>
-    </form>
+    <div>
+      <h2>Please enter a room id to start the game!</h2>
+      <form @submit.prevent="onSubmit">
+        <input type="text" v-model="roomId" />
+        <button type="submit">Start!</button>
+      </form>
+    </div>
   </section>
 </template>
 
@@ -41,9 +43,16 @@ form {
   justify-content: center;
   align-items: center;
 }
+
+section {
+  padding: 0 1rem;
+}
+
 input {
+  width: 100%;
   padding: 1rem 2rem;
   outline: none;
   font-size: xx-large;
+  border-radius: 1rem;
 }
 </style>

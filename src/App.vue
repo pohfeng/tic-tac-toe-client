@@ -1,14 +1,17 @@
 <template>
   <header>
-    <nav>
-      <img
-        class="home-icon"
-        src="/src/assets/house-chimney-solid.svg"
-        alt="home icon"
-        @click="redirectToHomePage"
-      />
-    </nav>
-    <h1>Tic-Tac-Toe</h1>
+    <div class="title">
+      <nav>
+        <img
+          class="home-icon"
+          src="/src/assets/house-chimney-solid.svg"
+          alt="home icon"
+          @click="redirectToHomePage"
+        />
+      </nav>
+      <h1>Tic-Tac-Toe</h1>
+    </div>
+    <h3>By <a href="https://www.pf-pang.com/" class="creator">Poh Feng</a></h3>
   </header>
   <main>
     <router-view></router-view>
@@ -27,33 +30,50 @@ export default {
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Montserrat 300, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
-nav {
-  height: 2em;
-  padding-right: 1rem;
 
-  & .home-icon {
-    height: 100%;
-    width: 3rem;
-    cursor: pointer;
-  }
+.creator {
+  font-family: Satisfy, 'Courier New', Courier, monospace;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+input,
+button {
+  font-family: inherit;
 }
 
 header {
-  h1 {
+  h1,
+  h3 {
     margin: 0;
   }
   height: 3rem;
   margin: 2rem 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: white;
+
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & nav {
+      height: 2em;
+      padding-right: 1rem;
+
+      & .home-icon {
+        height: 100%;
+        width: 3rem;
+        cursor: pointer;
+      }
+    }
+  }
 }
 body {
   margin: 0;

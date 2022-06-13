@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <div>Your room Id is</div>
     <div class="room-id">
       <span>{{ roomId }}</span>
@@ -16,7 +16,7 @@
       <span>Game will start right after your opponent join </span>
       <span class="spinner"></span>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -37,9 +37,14 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/spinner';
 @include spinner-mixin;
+
+section {
+  padding: 0 1rem;
+}
 .room-id {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 1.5rem;
   text-align: left;
   background-color: rgba(#ddd, 0.5);
@@ -51,5 +56,11 @@ export default {
   width: 1.5rem;
   height: 1.5rem;
   cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .room-id {
+    font-size: 1rem;
+  }
 }
 </style>

@@ -17,7 +17,7 @@ export default {
     ...mapActions(['room/createRoom']),
     createRoom() {
       this['room/createRoom']({
-        url: 'http://localhost:3001'
+        url: import.meta.env.VITE_SERVER_URL || 'http://localhost:3000'
       })
     },
     joinRoom() {

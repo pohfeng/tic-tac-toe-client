@@ -80,9 +80,16 @@ export default {
         })
 
         state.socket.on('join-room', ({ room, id }) => {
+          console.log('join-room event: ')
+          console.log('room: ', room)
+          console.log('id: ', id)
+          console.log('socket.id: ', state.socket.id)
           if (id === state.socket.id) {
             commit('SET_ROOM_ID', room)
-            router.push({ name: 'game-page', params: { id: room } })
+            router.replace({
+              name: 'game-page',
+              params: { id: room }
+            })
           }
         })
 

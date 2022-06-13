@@ -30,7 +30,10 @@ export default {
     mark: 'x',
     turn: 'x',
     winner: null,
-    isDraw: false
+    isDraw: false,
+    isOpponentLeft: false,
+    opponentReady: false,
+    playerReady: false
   },
   mutations: {
     SET_ROOM_ID(state, id) {
@@ -53,6 +56,15 @@ export default {
     },
     SET_IS_DRAW(state, isDraw) {
       state.isDraw = isDraw
+    },
+    SET_OPPONENT_STATUS(state, status) {
+      state.isOpponentLeft = status
+    },
+    SET_OPPONENT_READY(state, ready) {
+      state.opponentReady = ready
+    },
+    SET_PLAYER_READY(state, ready) {
+      state.playerReady = ready
     }
   },
   actions: {
@@ -63,13 +75,50 @@ export default {
       state.socket.on('connect', () => {
         commit('SET_ROOM_ID', roomId)
         state.socket.emit('join', roomId)
+
         state.socket.on('room-closed', () => {
           window.alert('This room does not exists!')
         })
+
         state.socket.on('join-room', (id) => {
           if (id === state.socket.id)
             router.push({ name: 'game-page', params: { id: roomId } })
         })
+
+        state.socket.on('room-full', () => {
+          window.alert('This room is full!')
+        })
+
+        state.socket.on('leave-room', () => {
+          window.alert('Opponent left! You will be redirect to the home page.')
+          commit('SET_OPPONENT_STATUS', true)
+          router.push({ name: 'home' })
+        })
+
+        state.socket.on('restart-ready', (id) => {
+          if (id !== state.socket.id) commit('SET_OPPONENT_READY', true)
+          else commit('SET_PLAYER_READY', true)
+
+          if (state.opponentReady && state.playerReady) {
+            commit('UPDATE_GAME_DATA', {
+              1: '',
+              2: '',
+              3: '',
+              4: '',
+              5: '',
+              6: '',
+              7: '',
+              8: '',
+              9: ''
+            })
+            commit('SET_TURN', 'x')
+            commit('SET_WINNER', null)
+            commit('SET_IS_DRAW', false)
+            commit('SET_PLAYER_READY', false)
+            commit('SET_OPPONENT_READY', false)
+          }
+        })
+
         state.socket.on('game-play-update-server', async (data) => {
           commit('UPDATE_GAME_DATA', data)
           await dispatch('checkWinner')
@@ -85,16 +134,51 @@ export default {
       state.socket.on('connect', () => {
         commit('SET_ROOM_ID', state.socket.id)
         router.push({ name: 'create-room-page' })
-        state.socket.on('Hello', (msg) => {
-          console.log('hello: ', msg)
-          router.push({ name: 'game-page', params: { id: state.socket.id } })
+
+        state.socket.on('join-room', (id) => {
+          if (id !== state.socket.id)
+            router.replace({
+              name: 'game-page',
+              params: { id: state.socket.id }
+            })
         })
+
+        state.socket.on('leave-room', () => {
+          window.alert('Opponent left! You will be redirect to the home page.')
+          commit('SET_OPPONENT_STATUS', true)
+          router.replace({ name: 'home' })
+        })
+
         state.socket.on('game-play-update-server', async (data) => {
           commit('UPDATE_GAME_DATA', data)
           await dispatch('checkWinner')
           await dispatch('checkDraw')
           if (!state.winner && !state.isDraw)
             commit('SET_TURN', state.turn === 'x' ? 'o' : 'x')
+        })
+
+        state.socket.on('restart-ready', (id) => {
+          if (id !== state.socket.id) commit('SET_OPPONENT_READY', true)
+          else commit('SET_PLAYER_READY', true)
+
+          if (state.opponentReady && state.playerReady) {
+            commit('UPDATE_GAME_DATA', {
+              1: '',
+              2: '',
+              3: '',
+              4: '',
+              5: '',
+              6: '',
+              7: '',
+              8: '',
+              9: ''
+            })
+            commit('SET_TURN', 'x')
+            commit('SET_WINNER', null)
+            commit('SET_IS_DRAW', false)
+            commit('SET_PLAYER_READY', false)
+            commit('SET_OPPONENT_READY', false)
+          }
         })
       })
     },
@@ -107,14 +191,11 @@ export default {
     },
     checkWinner({ state, commit }) {
       const values = Object.values(state.gameData)
-      console.log('values: ', values)
-      console.log('turn: ', state.turn)
       const winner = state.winningCombinations.some((combination) => {
         return combination.every((index) => {
           return values[index] === state.turn
         })
       })
-      console.log('winner: ', winner)
       if (winner) commit('SET_WINNER', state.turn)
     },
     checkDraw({ state, commit }) {
@@ -125,23 +206,14 @@ export default {
         }) && !state.winner
       if (isDraw) commit('SET_IS_DRAW', true)
     },
-    restartGame({ commit }) {
-      commit('UPDATE_GAME_DATA', {
-        1: '',
-        2: '',
-        3: '',
-        4: '',
-        5: '',
-        6: '',
-        7: '',
-        8: '',
-        9: ''
+    restartGame({ state }) {
+      state.socket.emit('restart', {
+        roomId: state.roomId,
+        socketId: state.socket.id
       })
-      commit('SET_TURN', 'x')
-      commit('SET_WINNER', null)
-      commit('SET_IS_DRAW', false)
     },
-    resetState({ commit }) {
+    resetState({ state, commit }) {
+      state.socket.emit('leave', state.roomId)
       commit('SET_ROOM_ID', '')
       commit('SET_SOCKET', null)
       commit('UPDATE_GAME_DATA', {

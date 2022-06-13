@@ -31,6 +31,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../styles/button';
+@include button-mixin;
+
 section,
 form {
   display: flex;
@@ -42,31 +45,5 @@ input {
   padding: 1rem 2rem;
   outline: none;
   font-size: xx-large;
-}
-
-button {
-  font-size: xxx-large;
-  cursor: pointer;
-  background-image: linear-gradient(
-    to right,
-    #83a4d4 0%,
-    #b6fbff 51%,
-    #83a4d4 100%
-  );
-  margin: 2rem;
-  padding: 15px 45px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: black;
-  border-radius: 10px;
-  display: block;
-
-  &:hover {
-    background-position: right center; /* change the direction of the change here */
-    color: black;
-    text-decoration: none;
-  }
 }
 </style>

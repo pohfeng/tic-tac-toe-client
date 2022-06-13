@@ -1,4 +1,12 @@
 <template>
+  <div v-show="turn !== mark" class="opponent">
+    <span>Opponent's turn</span>
+    <span class="spinner"></span>
+  </div>
+  <div v-show="turn === mark" class="player">
+    <span>Your turn</span>
+    <span class="spinner"></span>
+  </div>
   <div class="board" id="board">
     <button
       v-for="index in 9"
@@ -35,7 +43,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/variables.scss';
+@import '../../styles/variables';
+@import '../../styles/spinner';
+@include spinner-mixin;
 
 main {
   width: 100vw;
@@ -44,6 +54,16 @@ main {
   justify-content: center;
   align-items: center;
 }
+
+.opponent,
+.player {
+  span {
+    margin-left: 1rem;
+  }
+  font-size: xx-large;
+  margin-bottom: 2rem;
+}
+
 .board {
   display: grid;
   justify-content: center;

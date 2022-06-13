@@ -73,16 +73,24 @@ export default {
       commit('SET_MARK', 'o')
 
       state.socket.on('connect', () => {
-        commit('SET_ROOM_ID', roomId)
         state.socket.emit('join', roomId)
 
         state.socket.on('room-closed', () => {
           window.alert('This room does not exists!')
         })
 
-        state.socket.on('join-room', (id) => {
-          if (id === state.socket.id)
-            router.push({ name: 'game-page', params: { id: roomId } })
+        state.socket.on('join-room', ({ room, id }) => {
+          console.log('join-room event: ')
+          console.log('room: ', room)
+          console.log('id: ', id)
+          console.log('socket.id: ', state.socket.id)
+          if (id === state.socket.id) {
+            commit('SET_ROOM_ID', room)
+            router.replace({
+              name: 'game-page',
+              params: { id: room }
+            })
+          }
         })
 
         state.socket.on('room-full', () => {
@@ -92,7 +100,7 @@ export default {
         state.socket.on('leave-room', () => {
           window.alert('Opponent left! You will be redirect to the home page.')
           commit('SET_OPPONENT_STATUS', true)
-          router.push({ name: 'home' })
+          router.replace({ name: 'home' })
         })
 
         state.socket.on('restart-ready', (id) => {
@@ -130,17 +138,21 @@ export default {
     },
     createRoom({ state, commit, dispatch }, { url }) {
       commit('SET_SOCKET', io(url))
+      commit('SET_MARK', 'x')
+
+      state.socket.emit('create-room')
 
       state.socket.on('connect', () => {
-        commit('SET_ROOM_ID', state.socket.id)
-        router.push({ name: 'create-room-page' })
-
-        state.socket.on('join-room', (id) => {
-          if (id !== state.socket.id)
+        state.socket.on('join-room', ({ room, id }) => {
+          if (id !== state.socket.id) {
             router.replace({
               name: 'game-page',
-              params: { id: state.socket.id }
+              params: { id: room }
             })
+          } else {
+            commit('SET_ROOM_ID', room)
+            router.push({ name: 'create-room-page' })
+          }
         })
 
         state.socket.on('leave-room', () => {

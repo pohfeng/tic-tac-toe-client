@@ -1,0 +1,16 @@
+@mixin slide-effect {
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: opacity 1.5s ease, transform 1.5s ease;
+  }
+
+  .slide-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  .slide-enter-from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}

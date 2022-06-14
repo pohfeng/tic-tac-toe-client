@@ -1,5 +1,7 @@
 <template>
-  <Board />
+  <Transition name="slide" appear>
+    <Board />
+  </Transition>
   <Modal :open="!!winner || !!isDraw">
     <div class="result-container">
       <div class="result" v-show="winner !== mark">Opponent Wins!</div>
@@ -55,7 +57,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/button';
+@import '../styles/slideEffect';
+
 @include button-mixin;
+@include slide-effect;
 .result-container {
   display: flex;
   flex-direction: column;

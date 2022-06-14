@@ -1,8 +1,10 @@
 <template>
   <Teleport to="body">
-    <div v-if="open" class="overlay">
-      <slot></slot>
-    </div>
+    <Transition name="fade" appear>
+      <div v-if="open" class="overlay">
+        <slot></slot>
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -30,5 +32,15 @@ export default {
   height: 100vh;
   z-index: 20;
   background-color: rgba(0, 0, 0, 0.75);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

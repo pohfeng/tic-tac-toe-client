@@ -16,10 +16,15 @@
   <main>
     <router-view></router-view>
   </main>
+  <LoadingOverlay />
 </template>
 
 <script>
+import LoadingOverlay from './components/UI/LoadingOverlay.vue'
 export default {
+  components: {
+    LoadingOverlay
+  },
   methods: {
     redirectToHomePage() {
       this.$router.replace({ name: 'home' })

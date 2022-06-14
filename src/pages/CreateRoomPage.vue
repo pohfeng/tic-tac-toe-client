@@ -1,22 +1,24 @@
 <template>
-  <section>
-    <div>Your room Id is</div>
-    <div class="room-id">
-      <span>{{ roomId }}</span>
-      <img
-        title="Copy room id"
-        class="copy-icon"
-        src="/src/assets/copy.svg"
-        alt="copy icon"
-        @click="copyRoomId"
-      />
-    </div>
-    <p>Send this room id to your friend for him/her to join the game.</p>
-    <div>
-      <span>Game will start right after your opponent join </span>
-      <span class="spinner"></span>
-    </div>
-  </section>
+  <Transition name="slide" appear>
+    <section>
+      <div>Your room Id is</div>
+      <div class="room-id">
+        <span>{{ roomId }}</span>
+        <img
+          title="Copy room id"
+          class="copy-icon"
+          src="/src/assets/copy.svg"
+          alt="copy icon"
+          @click="copyRoomId"
+        />
+      </div>
+      <p>Send this room id to your friend for him/her to join the game.</p>
+      <div>
+        <span>Game will start right after your opponent join </span>
+        <span class="spinner"></span>
+      </div>
+    </section>
+  </Transition>
 </template>
 
 <script>
@@ -36,7 +38,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/spinner';
+@import '../styles/slideEffect';
+
 @include spinner-mixin;
+@include slide-effect;
 
 section {
   padding: 0 1rem;

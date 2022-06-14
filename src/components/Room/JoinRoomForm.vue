@@ -1,13 +1,15 @@
 <template>
-  <section>
-    <div>
-      <h2>Please enter a room id to start the game!</h2>
-      <form @submit.prevent="onSubmit">
-        <input type="text" v-model="roomId" />
-        <button type="submit">Start!</button>
-      </form>
-    </div>
-  </section>
+  <Transition name="slide" appear>
+    <section>
+      <div>
+        <h2>Please enter a room id to start the game!</h2>
+        <form @submit.prevent="onSubmit">
+          <input type="text" v-model="roomId" />
+          <button type="submit">Start!</button>
+        </form>
+      </div>
+    </section>
+  </Transition>
 </template>
 
 <script>
@@ -34,7 +36,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../styles/button';
+@import '../../styles/slideEffect';
 @include button-mixin;
+@include slide-effect;
 
 section,
 form {

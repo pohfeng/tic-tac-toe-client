@@ -148,6 +148,7 @@ export default {
           } else {
             commit('SET_ROOM_ID', room)
             router.push({ name: 'create-room-page' })
+            dispatch('ui/setIsLoading', false, { root: true })
           }
         })
 

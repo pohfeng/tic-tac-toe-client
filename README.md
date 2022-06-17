@@ -1,7 +1,3 @@
-# Vue 3 + Vite
+# Tic-Tac-Toe Client
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+Tic-Tac-Toe Client is a client side code of an online tic-tac-toe game. This client will need to integrate with this [Tic-Tac-Toe Server](https://github.com/pohfeng/tic-tac-toe-server) to work properly.
